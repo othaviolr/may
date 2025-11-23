@@ -11,7 +11,7 @@ import { createPostIts, animatePostItEntrance, animatePostItFloat, PostIt } from
 import { InteractionManager } from '@/lib/three/interactions';
 import { animatePostItRemoval, createAndAnimateParticles } from '@/lib/three/animations';
 
-export function useThreeScene(containerRef: React.RefObject<HTMLDivElement>) {
+export function useThreeScene(containerRef: React.RefObject<HTMLDivElement | null>) { // ← ACEITA NULL
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -207,7 +207,7 @@ export function useThreeScene(containerRef: React.RefObject<HTMLDivElement>) {
         }
       });
     };
-  }, [containerRef]); // ← SÓ containerRef como dependência!
+  }, [containerRef]);
 
   return null;
 }

@@ -78,7 +78,10 @@ export function animateParticles(particles: Particle[], time: number) {
       const pulse = Math.sin(
         time * particle.userData.pulseSpeed! + particle.userData.pulseOffset!
       );
-      particle.material.opacity = particle.userData.baseOpacity + pulse * 0.3;
+      
+      // ← CAST para MeshBasicMaterial
+      const material = particle.material as THREE.MeshBasicMaterial;
+      material.opacity = particle.userData.baseOpacity + pulse * 0.3;
     }
   });
 }

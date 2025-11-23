@@ -33,33 +33,36 @@ export function createPostIts(scene: THREE.Scene): PostIt[] {
 
   for (let i = 0; i < messages.length; i++) {
     const material = postItMaterials[i % postItMaterials.length];
-    const postIt = new THREE.Mesh(postItGeometry, material) as PostIt;
+    const mesh = new THREE.Mesh(postItGeometry, material);
     
     // Posição aleatória dentro do pote
     const angle = (i / messages.length) * Math.PI * 2;
     const radius = Math.random() * 0.8 + 0.3;
-    postIt.position.x = Math.cos(angle) * radius;
-    postIt.position.y = (Math.random() - 0.5) * 2 - 0.5;
-    postIt.position.z = Math.sin(angle) * radius;
+    mesh.position.x = Math.cos(angle) * radius;
+    mesh.position.y = (Math.random() - 0.5) * 2 - 0.5;
+    mesh.position.z = Math.sin(angle) * radius;
     
     // Rotação aleatória
-    postIt.rotation.x = Math.random() * Math.PI;
-    postIt.rotation.y = Math.random() * Math.PI;
-    postIt.rotation.z = Math.random() * Math.PI;
+    mesh.rotation.x = Math.random() * Math.PI;
+    mesh.rotation.y = Math.random() * Math.PI;
+    mesh.rotation.z = Math.random() * Math.PI;
     
-    postIt.userData = {
+    // Definir userData
+    mesh.userData = {
       messageIndex: i,
-      originalPosition: postIt.position.clone(),
-      originalRotation: postIt.rotation.clone(),
+      originalPosition: mesh.position.clone(),
+      originalRotation: mesh.rotation.clone(),
       isRead: false
     };
     
     // Inicialmente escondidos para animação de entrada
-    postIt.visible = false;
-    postIt.scale.set(0, 0, 0);
+    mesh.visible = false;
+    mesh.scale.set(0, 0, 0);
     
-    scene.add(postIt);
-    postIts.push(postIt);
+    scene.add(mesh);
+    
+    // ← CAST via unknown primeiro, depois para PostIt
+    postIts.push(mesh as unknown as PostIt);
   }
 
   return postIts;
